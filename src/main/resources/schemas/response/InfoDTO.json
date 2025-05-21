@@ -1,0 +1,34 @@
+{
+  "title": "Root Type for InfoDTO",
+  "description": "",
+  "required": [
+    "porcentajeAplicado",
+    "montoSumado",
+    "resultado",
+    "usandoCache"
+  ],
+  "type": "object",
+  "properties": {
+    "resultado": {
+      "format": "double",
+      "type": "number"
+    },
+    "porcentajeAplicado": {
+      "format": "double",
+      "type": "number"
+    },
+    "montoSumado": {
+      "format": "double",
+      "type": "number"
+    },
+    "usandoCache": {
+      "type": "boolean"
+    }
+  },
+  "example": {
+    "resultado": 115,
+    "montoSumado": 15,
+    "porcentajeAplicado": 15,
+    "usandoCache": false
+  }
+}

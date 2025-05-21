@@ -1,0 +1,27 @@
+{
+  "title": "Root Type for MetadataDTO",
+  "description": "",
+  "required": [
+    "codigo",
+    "mensaje",
+    "timestamp"
+  ],
+  "type": "object",
+  "properties": {
+    "codigo": {
+      "type": "string"
+    },
+    "mensaje": {
+      "type": "string"
+    },
+    "timestamp": {
+      "format": "date-time",
+      "type": "string"
+    }
+  },
+  "example": {
+    "codigo": "00000",
+    "mensaje": "OK",
+    "timestamp": "2025-05-19T15:23:42Z"
+  }
+}

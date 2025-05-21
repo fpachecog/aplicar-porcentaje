@@ -1,0 +1,23 @@
+{
+  "title": "Root Type for RequestDTO",
+  "description": "",
+  "required": [
+    "num1",
+    "num2"
+  ],
+  "type": "object",
+  "properties": {
+    "num1": {
+      "format": "double",
+      "type": "number"
+    },
+    "num2": {
+      "format": "double",
+      "type": "number"
+    }
+  },
+  "example": {
+    "num1": 35889.8,
+    "num2": 43453.03
+  }
+}

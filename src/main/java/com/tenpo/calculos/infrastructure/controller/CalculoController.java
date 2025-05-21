@@ -1,0 +1,37 @@
+package com.tenpo.calculos.infrastructure.controller;
+
+import com.tenpo.calculos.application.dto.request.RequestDTO;
+import com.tenpo.calculos.application.dto.response.ResponseDTO;
+import com.tenpo.calculos.application.port.interactor.CalculoService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+@RestController
+@RequestMapping("/api/v1/calculos")
+public class CalculoController {
+
+    private final CalculoService calculoService;
+
+    private static final Logger log = LoggerFactory.getLogger(CalculoController.class);
+
+    public CalculoController(CalculoService calculoService){
+        this.calculoService = calculoService;
+    }
+
+    @PostMapping("/porcentaje")
+    public ResponseEntity<ResponseDTO> calcular(@RequestBody @Valid RequestDTO request){
+        log.info("Iniciando operacion calcular con parametros num1: {} y num2: {} ",request.getNum1(), request.getNum2());
+        return new ResponseEntity<>(calculoService.calcular(request.getNum1(), request.getNum2()),
+                HttpStatus.OK);
+    }
+
+
+}

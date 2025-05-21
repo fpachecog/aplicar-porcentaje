@@ -1,0 +1,25 @@
+{
+  "title": "Root Type for RespuestaTokenDTO",
+  "description": "",
+  "required": [
+    "codigo",
+    "descripcion"
+  ],
+  "type": "object",
+  "properties": {
+    "codigo": {
+      "type": "string"
+    },
+    "descripcion": {
+      "type": "string"
+    },
+    "token": {
+      "type": "string"
+    }
+  },
+  "example": {
+    "codigo": "00000",
+    "descripcion": "Operación exitosa",
+    "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsZmVybmFuZGV6Iiwicm9sZXMiOlsiU2NydW0gbWFzdGVyIl0sImlhdCI6MTczNjEyMTA4NSwiZXhwIjoxNzM2MTI0Njg1fQ.tgLYLcUpnT2SHOQ2oV7creMHPtx6l7xcZCcav3qhOrM"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "title": "Root Type for ResponseDTO",
+  "description": "",
+  "required": [
+    "metadata"
+  ],
+  "type": "object",
+  "properties": {
+    "info": {
+      "$ref": "../response/InfoDTO.json",
+      "properties": {
+        "resultado": {
+          "format": "double",
+          "type": "number"
+        },
+        "porcentajeAplicado": {
+          "format": "double",
+          "type": "number"
+        },
+        "usandoCache": {
+          "type": "boolean"
+        }
+      }
+    },
+    "metadata": {
+      "$ref": "../response/MetadataDTO.json",
+      "properties": {
+        "codigo": {
+          "type": "string"
+        },
+        "mensaje": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "example": {
+    "info": {
+      "resultado": 534534543454.35,
+      "porcentajeAplicado": 10.2,
+      "usandoCache": false
+    },
+    "metadata": {
+      "codigo": "00000",
+      "mensaje": "OK",
+      "timestamp": "2025-05-19T15:23:42Z"
+    }
+  }
+}
