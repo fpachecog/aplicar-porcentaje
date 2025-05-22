@@ -1,0 +1,44 @@
+# Config base de datos H2
+spring:
+  datasource:
+    hikari:
+      username: postgres
+      host: postgres
+      port: 5432
+      password: admin
+      databasename: porcentaje-db
+      connectionTimeout: 30000
+      maxLifetime: 180000
+      leakDetectionThreshold: 30000
+      maximumPoolSize: 6
+      connection-init-sql: "SET TIME ZONE 'America/Santiago'; SET statement_timeout to 5000;"
+  jpa:
+    hibernate:
+      ddl-auto: none
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db/schema.sql
+  cache:
+    type: redis
+  redis:
+    host: redis
+    port: 6379
+    timeout: 5000
+
+app:
+  externo:
+    url: https://4c02f708-49e0-4603-a1ba-c3b47be15b9f.mock.pstmn.io/porcentaje/obtener
+    maxconnections: 500
+    timeout: 30
+
+cache:
+  porcentaje:
+    duracion: 1
+    key: key.porcentaje
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: caches
