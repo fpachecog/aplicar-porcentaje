@@ -11,6 +11,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 
 /**
@@ -33,6 +35,7 @@ public class RequestDTO {
      * 
      */
     @JsonProperty("num1")
+    @NotNull(message = "El campo num1 no puede ser nulo")
     private BigDecimal num1;
     /**
      * 
@@ -40,6 +43,7 @@ public class RequestDTO {
      * 
      */
     @JsonProperty("num2")
+    @NotNull(message = "El campo num2 no puede ser nulo")
     private BigDecimal num2;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();

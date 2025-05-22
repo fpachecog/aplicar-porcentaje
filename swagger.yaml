@@ -1,0 +1,334 @@
+openapi: 3.0.2
+info:
+  title: tenpo-calculo-porcentaje
+  version: 1.0.0
+paths:
+  /api/v1/calculos/porcentaje:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestDTO'
+            examples:
+              Request Example:
+                value:
+                  num1: 35889.8
+                  num2: 43453.03
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseDTO'
+              examples:
+                200 Example:
+                  value:
+                    info:
+                      resultado: 534534543454.35
+                      porcentajeAplicado: 10.2
+                      usandoCache: false
+                    metadata:
+                      codigo: '00000'
+                      mensaje: OK
+                      timestamp: '2025-05-19T15:23:42Z'
+          description: Respuesta exitosa
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseDTO'
+              examples:
+                400 example:
+                  value:
+                    metadata:
+                      codigo: '00001'
+                      mensaje: Parametros invalidos o faltantes
+                      timestamp: '2025-05-19T15:23:42Z'
+          description: Parámetros inválidos o faltantes
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseDTO'
+              examples:
+                500 Example:
+                  value:
+                    metadata:
+                      codigo: '00003'
+                      mensaje: Error inesperado en el servidor
+                      timestamp: '2025-05-19T15:23:42Z'
+          description: Error inesperado en el servidor
+        '502':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseDTO'
+              examples:
+                502 Example:
+                  value:
+                    metadata:
+                      codigo: '00002'
+                      mensaje: Error al invocar el servicio externo
+                      timestamp: '2025-05-19T15:23:42Z'
+          description: Error al invocar el servicio externo que obtiene el porcentaje a aplicar
+      summary: Operación que Suma 2 números y les aplica un porcentaje adicional
+  /api/v1/calculos/historial:
+    get:
+      parameters:
+        -
+          name: page
+          description: ''
+          schema:
+            type: integer
+          in: query
+          required: true
+        -
+          name: size
+          description: ''
+          schema:
+            type: integer
+          in: query
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistorialResponseDTO'
+              examples:
+                200 example:
+                  value:
+                    historial:
+                      -
+                        num1: 100
+                        num2: 100
+                        porcentajeAplicado: 15
+                        usandoCache: false
+                        resultado: 230
+                        fecha: '2025-05-21 20:34:57.309'
+                      -
+                        num1: 200
+                        num2: 200
+                        porcentajeAplicado: 15
+                        usandoCache: false
+                        resultado: 460
+                        fecha: '2025-05-21 21:34:57.309'
+                    metadata:
+                      codigo: '00000'
+                      mensaje: OK
+                      timestamp: '2025-05-21T15:23:42Z'
+          description: Respuesta exitosa
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistorialResponseDTO'
+              examples:
+                400 example:
+                  value:
+                    metadata:
+                      codigo: '00001'
+                      mensaje: Parametros invalidos o faltantes
+                      timestamp: '2025-05-22T09:55:49.2914466-04:00'
+          description: Parámetros inválidos o faltantes
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistorialResponseDTO'
+              examples:
+                500 Example:
+                  value:
+                    metadata:
+                      codigo: '00003'
+                      mensaje: Error inesperado en el servidor
+                      timestamp: '2025-05-22T09:55:49.2914466-04:00'
+          description: Error inesperado en el servidor
+        '503':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistorialResponseDTO'
+              examples:
+                503 example:
+                  value:
+                    metadata:
+                      codigo: '00002'
+                      mensaje: El servidor no puede manejar la solicitud temporalmente
+                      timestamp: '2025-05-22T09:55:49.2914466-04:00'
+          description: El servidor no puede manejar la solicitud temporalmente
+      summary: >-
+        Operación que obtiene historial de llamadas. Necesita como query params el número de página y
+        tamaño
+components:
+  schemas:
+    RequestDTO:
+      title: Root Type for RequestDTO
+      description: ''
+      required:
+        - num1
+        - num2
+      type: object
+      properties:
+        num1:
+          format: double
+          type: number
+        num2:
+          format: double
+          type: number
+      example:
+        num1: 35889.8
+        num2: 43453.03
+    ResponseDTO:
+      title: Root Type for ResponseDTO
+      description: ''
+      required:
+        - metadata
+      type: object
+      properties:
+        info:
+          $ref: '#/components/schemas/InfoDTO'
+          properties:
+            resultado:
+              format: double
+              type: number
+            porcentajeAplicado:
+              format: double
+              type: number
+            usandoCache:
+              type: boolean
+        metadata:
+          $ref: '#/components/schemas/MetadataDTO'
+          properties:
+            codigo:
+              type: string
+            mensaje:
+              type: string
+      example:
+        info:
+          resultado: 115
+          montoSumado: 15
+          porcentajeAplicado: 15
+          usandoCache: false
+        metadata:
+          codigo: '00000'
+          mensaje: OK
+          timestamp: '2025-05-21T15:23:42Z'
+    MetadataDTO:
+      title: Root Type for MetadataDTO
+      description: ''
+      required:
+        - codigo
+        - mensaje
+        - timestamp
+      type: object
+      properties:
+        codigo:
+          type: string
+        mensaje:
+          type: string
+        timestamp:
+          format: date-time
+          type: string
+      example:
+        codigo: '00000'
+        mensaje: OK
+        timestamp: '2025-05-21T15:23:42Z'
+    InfoDTO:
+      title: Root Type for InfoDTO
+      description: ''
+      required:
+        - porcentajeAplicado
+        - montoSumado
+        - resultado
+        - usandoCache
+      type: object
+      properties:
+        resultado:
+          format: double
+          type: number
+        porcentajeAplicado:
+          format: double
+          type: number
+        montoSumado:
+          format: double
+          type: number
+        usandoCache:
+          type: boolean
+      example:
+        resultado: 115
+        montoSumado: 15
+        porcentajeAplicado: 15
+        usandoCache: false
+    OperacionDTO:
+      title: Root Type for OperacionDTO
+      description: ''
+      type: object
+      properties:
+        num1:
+          format: int32
+          type: integer
+        num2:
+          format: double
+          type: number
+        porcentajeAplicado:
+          format: int32
+          type: integer
+        usandoCache:
+          type: boolean
+        resultado:
+          format: double
+          type: number
+        fecha:
+          format: date-time
+          type: string
+      example:
+        num1: 2222
+        num2: 9203453434.442
+        porcentajeAplicado: 15
+        usandoCache: true
+        resultado: 10583974004.9083
+        fecha: '2025-05-22T13:45:04.919Z'
+    HistorialResponseDTO:
+      title: Root Type for HistorialResponseDTO
+      description: ''
+      required:
+        - metadata
+      type: object
+      properties:
+        historial:
+          type: array
+          items:
+            $ref: '#/components/schemas/OperacionDTO'
+        metadata:
+          $ref: '#/components/schemas/MetadataDTO'
+          properties:
+            codigo:
+              type: string
+            mensaje:
+              type: string
+            timestamp:
+              format: date-time
+              type: string
+      example:
+        historial:
+          -
+            num1: 100
+            num2: 100
+            porcentajeAplicado: 15
+            usandoCache: false
+            resultado: 230
+            fecha: '2025-05-21 20:34:57.309'
+          -
+            num1: 200
+            num2: 200
+            porcentajeAplicado: 15
+            usandoCache: false
+            resultado: 460
+            fecha: '2025-05-21 21:34:57.309'
+        metadata:
+          codigo: '00000'
+          mensaje: OK
+          timestamp: '2025-05-21T15:23:42Z'
