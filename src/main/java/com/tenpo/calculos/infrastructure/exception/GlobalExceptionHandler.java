@@ -7,9 +7,12 @@ import com.tenpo.calculos.application.dto.response.RespuestaTokenDTO;
 import com.tenpo.calculos.domain.constant.ResponseCodes;
 import com.tenpo.calculos.domain.exception.ApplicationException;
 import jakarta.validation.UnexpectedTypeException;
+import org.postgresql.util.PSQLException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.jdbc.BadSqlGrammarException;
+import org.springframework.transaction.CannotCreateTransactionException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
+import java.sql.SQLException;
 import java.time.OffsetDateTime;
 import java.util.Date;
 
@@ -95,6 +99,24 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
     }
+
+//    @ExceptionHandler(PSQLException.class)
+
+    @ExceptionHandler(PSQLException.class)
+    public ResponseEntity<ResponseDTO> handlePSQLException(PSQLException ex){
+        ResponseDTO responseDTO = new ResponseDTO();
+        MetadataDTO metadataDTO = new MetadataDTO();
+        metadataDTO.setCodigo(ResponseCodes.VALIDACION_FALLIDA_CODE);
+        metadataDTO.setMensaje("Parametros invalidos o faltantes");
+        metadataDTO.setTimestamp(OffsetDateTime.now());
+        responseDTO.setMetadata(metadataDTO);
+
+        return new ResponseEntity<>(responseDTO, HttpStatus.BAD_GATEWAY);
+    }
+
+//    @ExceptionHandler(SQLException.class)
+//    BadSqlGrammarException
+//    CannotCreateTransactionException
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ResponseDTO> handleException(Exception ex) {
