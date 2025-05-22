@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
+import java.time.OffsetDateTime;
 import java.util.Date;
 
 @RestControllerAdvice
@@ -22,7 +23,7 @@ public class GlobalExceptionHandler {
         MetadataDTO metadataDTO = new MetadataDTO();
         metadataDTO.setCodigo(ex.getCodigoError());
         metadataDTO.setMensaje(ex.getMessage());
-        metadataDTO.setTimestamp(new Date());
+        metadataDTO.setTimestamp(OffsetDateTime.now());
         responseDTO.setMetadata(metadataDTO);
 
         return new ResponseEntity<>(responseDTO, ex.getHttpStatus());
@@ -30,11 +31,15 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<RespuestaTokenDTO> handleException(Exception ex) {
-        RespuestaTokenDTO respuestaDTO = new RespuestaTokenDTO();
-//        respuestaDTO.setCodigo(CodigosEnum.ERROR_DEL_SERVIDOR.getCode());
-        respuestaDTO.setDescripcion(ex.getMessage());
-        return new ResponseEntity<>(respuestaDTO, HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<ResponseDTO> handleException(Exception ex) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        MetadataDTO metadataDTO = new MetadataDTO();
+        metadataDTO.setCodigo("00500");
+        metadataDTO.setMensaje(ex.getMessage());
+        metadataDTO.setTimestamp(OffsetDateTime.now());
+        responseDTO.setMetadata(metadataDTO);
+
+        return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 

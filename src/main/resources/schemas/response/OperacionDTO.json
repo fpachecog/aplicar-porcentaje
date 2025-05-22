@@ -1,0 +1,46 @@
+{
+  "title": "Root Type for OperacionDTO",
+  "description": "",
+  "required": [
+    "num1",
+    "fecha",
+    "num2",
+    "porcentajeAplicado",
+    "resultado",
+    "usandoCache"
+  ],
+  "type": "object",
+  "properties": {
+    "num1": {
+      "format": "double",
+      "type": "number"
+    },
+    "num2": {
+      "format": "double",
+      "type": "number"
+    },
+    "porcentajeAplicado": {
+      "format": "double",
+      "type": "number"
+    },
+    "usandoCache": {
+      "type": "boolean"
+    },
+    "resultado": {
+      "format": "double",
+      "type": "number"
+    },
+    "fecha": {
+      "format": "date-time",
+      "type": "string"
+    }
+  },
+  "example": {
+    "num1": 100,
+    "num2": 100,
+    "porcentajeAplicado": 15,
+    "usandoCache": false,
+    "resultado": 230,
+    "fecha": "2025-05-21 20:34:57.309"
+  }
+}

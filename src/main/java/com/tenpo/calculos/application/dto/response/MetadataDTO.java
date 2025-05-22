@@ -1,7 +1,7 @@
 
 package com.tenpo.calculos.application.dto.response;
 
-import java.util.Date;
+import java.time.OffsetDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.annotation.processing.Generated;
@@ -48,7 +48,7 @@ public class MetadataDTO {
      * 
      */
     @JsonProperty("timestamp")
-    private Date timestamp;
+    private OffsetDateTime timestamp;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
@@ -98,7 +98,7 @@ public class MetadataDTO {
      * 
      */
     @JsonProperty("timestamp")
-    public Date getTimestamp() {
+    public OffsetDateTime getTimestamp() {
         return timestamp;
     }
 
@@ -108,7 +108,7 @@ public class MetadataDTO {
      * 
      */
     @JsonProperty("timestamp")
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(OffsetDateTime timestamp) {
         this.timestamp = timestamp;
     }
 

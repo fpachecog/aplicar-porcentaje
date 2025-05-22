@@ -3,10 +3,10 @@ spring:
   datasource:
     hikari:
       username: postgres
-      host: localhost
+      host: postgres
       port: 5432
       password: admin
-      databasename: porcentajedb
+      databasename: porcentaje-db
       connectionTimeout: 30000
       maxLifetime: 180000
       leakDetectionThreshold: 30000
@@ -22,8 +22,9 @@ spring:
   cache:
     type: redis
   redis:
-    host: localhost:6379
-    password:
+    host: redis
+    port: 6379
+    timeout: 5000
 
 app:
   externo:

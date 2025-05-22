@@ -118,6 +118,9 @@
 <!--							<includeToString>true</includeToString>-->
 <!--							<targetPackage>com.tenpo.calculos.application.dto.response</targetPackage>-->
 <!--							<outputDirectory>${basedir}/src/main/java</outputDirectory>-->
+<!--							<dateTimeType>java.time.OffsetDateTime</dateTimeType>-->
+<!--							<useJodaDates>false</useJodaDates>-->
+<!--							<useJakartaValidation>true</useJakartaValidation>-->
 <!--						</configuration>-->
 <!--					</execution>-->
 <!--				</executions>-->

@@ -59,7 +59,7 @@ public class DbConfig {
         credentials.setUsername(getHikariUsername());
         credentials.setDbname(getDatabaseName());
         credentials.setPort(getHikariPort());
-        credentials.setDbInstanceIdentifier("localhost");
+        credentials.setDbInstanceIdentifier(getHikariHost());
 
         return buildDataSource(credentials);
 

@@ -1,0 +1,56 @@
+{
+  "title": "Root Type for HistorialResponseDTO",
+  "description": "",
+  "required": [
+    "metadata"
+  ],
+  "type": "object",
+  "properties": {
+    "historial": {
+      "type": "array",
+      "items": {
+        "$ref": "../response/OperacionDTO.json"
+      }
+    },
+    "metadata": {
+      "$ref": "../response/MetadataDTO.json",
+      "properties": {
+        "codigo": {
+          "type": "string"
+        },
+        "mensaje": {
+          "type": "string"
+        },
+        "timestamp": {
+          "format": "date-time",
+          "type": "string"
+        }
+      }
+    }
+  },
+  "example": {
+    "historial": [
+      {
+        "num1": 100,
+        "num2": 100,
+        "porcentajeAplicado": 15,
+        "usandoCache": false,
+        "resultado": 230,
+        "fecha": "2025-05-21 20:34:57.309"
+      },
+      {
+        "num1": 200,
+        "num2": 200,
+        "porcentajeAplicado": 15,
+        "usandoCache": false,
+        "resultado": 460,
+        "fecha": "2025-05-21 21:34:57.309"
+      }
+    ],
+    "metadata": {
+      "codigo": "00000",
+      "mensaje": "OK",
+      "timestamp": "2025-05-19T15:23:42Z"
+    }
+  }
+}

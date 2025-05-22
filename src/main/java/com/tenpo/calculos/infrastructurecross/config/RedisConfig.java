@@ -3,6 +3,7 @@ package com.tenpo.calculos.infrastructurecross.config;
 import io.lettuce.core.ReadFrom;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -15,13 +16,14 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
+@Configuration
 public class RedisConfig {
 
     @Value("${spring.redis.host}")
     private String redisHost;
 
-    @Value("${spring.redis.password}")
-    private String redisPassword;
+    @Value("${spring.redis.port}")
+    private int redisPort;
 
     @Value("${spring.redis.timeout}")
     private Integer redisTimeout;
@@ -32,9 +34,8 @@ public class RedisConfig {
     @Bean
     LettuceConnectionFactory connectionFactory() {
         RedisStandaloneConfiguration configuracion = new RedisStandaloneConfiguration();
-        configuracion.setHostName(getRedisHost().split(":")[0]);
-        configuracion.setPort(Integer.parseInt(getRedisHost().split(":")[1]));
-        configuracion.setPassword(getRedisPassword());
+        configuracion.setHostName(redisHost);
+        configuracion.setPort(redisPort);
 
         return new LettuceConnectionFactory(configuracion, getClientConfigurationLocal());
     }
@@ -69,8 +70,8 @@ public class RedisConfig {
         return redisHost;
     }
 
-    public String getRedisPassword() {
-        return redisPassword;
+    public int getRedisPort() {
+        return redisPort;
     }
 
     public Integer getRedisTimeout() {

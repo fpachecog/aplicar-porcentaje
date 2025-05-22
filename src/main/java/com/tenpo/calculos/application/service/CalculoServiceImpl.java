@@ -1,8 +1,7 @@
 package com.tenpo.calculos.application.service;
 
-import com.tenpo.calculos.application.dto.response.InfoDTO;
-import com.tenpo.calculos.application.dto.response.MetadataDTO;
-import com.tenpo.calculos.application.dto.response.ResponseDTO;
+import com.tenpo.calculos.application.dto.response.*;
+import com.tenpo.calculos.application.port.output.PorcentajeDb;
 import com.tenpo.calculos.application.port.repository.cache.PorcentajeResponseCache;
 import com.tenpo.calculos.domain.constant.ResponseCodes;
 import com.tenpo.calculos.domain.exception.ApplicationException;
@@ -21,8 +20,13 @@ import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
 
@@ -36,6 +40,9 @@ public class CalculoServiceImpl implements CalculoService {
 
     @Autowired
     private PorcentajeResponseCache porcentajeResponseCache;
+
+    @Autowired
+    private PorcentajeDb porcentajeDb;
 
     @Value("${cache.porcentaje.key}")
     private String keyPorcentaje;
@@ -64,10 +71,32 @@ public class CalculoServiceImpl implements CalculoService {
                 }
         );
 
-        BigDecimal montoSumado = suma.multiply(porcentaje[0]).divide(new BigDecimal("100"), 2, RoundingMode.HALF_UP);
+        BigDecimal montoSumado = suma.multiply(porcentaje[0]).divide(new BigDecimal("100"), 4, RoundingMode.HALF_UP);
         BigDecimal valorFinal = suma.add(montoSumado);
+
+        porcentajeDb.guardarLlamada(num1, num2, porcentaje[0], usandoCache.get(), valorFinal);
+
         return generarRespuestaFinal(valorFinal, montoSumado, porcentaje[0], usandoCache.get());
 
+    }
+
+    @Override
+    public HistorialResponseDTO obtenerHistorial(Integer page, Integer size) {
+        List<OperacionDTO> listaHistorial = porcentajeDb.obtenerHistorialLlamadas(page, size);
+        HistorialResponseDTO historialResponseDTO = new HistorialResponseDTO();
+        String mensaje = "No se encontraron resultados";
+        if(listaHistorial != null && !listaHistorial.isEmpty()){
+            historialResponseDTO.setHistorial(listaHistorial);
+            mensaje = "OK";
+        }
+        MetadataDTO metadataDTO = new MetadataDTO();
+        metadataDTO.setCodigo(ResponseCodes.OK_CODE);
+        metadataDTO.setMensaje(mensaje);
+        metadataDTO.setTimestamp(OffsetDateTime.now());
+
+        historialResponseDTO.setMetadata(metadataDTO);
+
+        return historialResponseDTO;
     }
 
     private ResponseDTO generarRespuestaFinal(BigDecimal valorFinal, BigDecimal montoSumado, BigDecimal porcentajeAplicado, Boolean usandoCache){
@@ -81,7 +110,7 @@ public class CalculoServiceImpl implements CalculoService {
         MetadataDTO metadataDTO = new MetadataDTO();
         metadataDTO.setCodigo(ResponseCodes.OK_CODE);
         metadataDTO.setMensaje("OK");
-        metadataDTO.setTimestamp(new Date());
+        metadataDTO.setTimestamp(OffsetDateTime.now());
 
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setInfo(infoDTO);
@@ -111,5 +140,12 @@ public class CalculoServiceImpl implements CalculoService {
                 })
                 .block();
     }
+
+
+    private Date obtenerFechaConZona(String zonaHoraria) {
+        ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of(zonaHoraria));
+        return Date.from(zonedDateTime.toInstant());
+    }
+
 
 }
